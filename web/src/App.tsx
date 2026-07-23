@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
-import { LayoutGrid, Upload, BarChart3, Search } from 'lucide-react'
+import { LayoutGrid, Upload, BarChart3, Search, Smartphone } from 'lucide-react'
 import CardListPage from './pages/CardListPage'
 import CardDetailPage from './pages/CardDetailPage'
 import UploadPage from './pages/UploadPage'
@@ -38,6 +38,13 @@ export default function App() {
             </NavLink>
           ))}
         </div>
+        <a
+          href="/cardfolio/download/CardFolio-v0.2.0.apk"
+          className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100 transition"
+        >
+          <Smartphone size={16} />
+          下载 App
+        </a>
       </nav>
 
       {/* ── Page Content ── */}
