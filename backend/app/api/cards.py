@@ -21,7 +21,9 @@ from app.schemas.card import (
     CategoryStats,
     UploadResponse,
 )
-from app.services.image_service import process_uploaded_image
+from pathlib import Path
+
+from app.services.image_service import generate_thumbnail, process_uploaded_image
 from app.services.ocr_service import perform_ocr
 
 router = APIRouter(prefix="/api/cards", tags=["cards"])
@@ -46,12 +48,20 @@ async def upload_card(
             if len(raw) > settings.max_file_size_mb * 1024 * 1024:
                 raise HTTPException(413, f"Image too large (max {settings.max_file_size_mb}MB)")
             front_path = process_uploaded_image(raw, front.filename or "front.jpg")
+            try:
+                generate_thumbnail(front_path)
+            except Exception:
+                pass
 
         if back:
             raw = await back.read()
             if len(raw) > settings.max_file_size_mb * 1024 * 1024:
                 raise HTTPException(413, f"Image too large (max {settings.max_file_size_mb}MB)")
             back_path = process_uploaded_image(raw, back.filename or "back.jpg")
+            try:
+                generate_thumbnail(back_path)
+            except Exception:
+                pass
     except HTTPException:
         raise
     except Exception as e:
@@ -177,10 +187,13 @@ async def delete_card(card_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
     if not card:
         raise HTTPException(404, "Card not found")
 
-    # Delete image files
+    # Delete image files and their thumbnails
     for path in [card.front_image_path, card.back_image_path]:
         if path and os.path.exists(path):
             os.remove(path)
+            thumb = settings.upload_path / f"thumb_{Path(path).name}"
+            if thumb.exists():
+                thumb.unlink()
 
     await db.delete(card)
     return {"message": "Card deleted"}

@@ -2,8 +2,9 @@
 
 import uuid
 from datetime import datetime
+from pathlib import Path
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 
 from app.models.card import CardCategory
 
@@ -47,10 +48,20 @@ class CardResponse(CardBase):
     id: uuid.UUID
     front_image_path: str | None = None
     back_image_path: str | None = None
+    front_thumbnail_url: str | None = None
+    back_thumbnail_url: str | None = None
     raw_ocr_result: dict | None = None
     needs_review: bool = False
     created_at: datetime
     updated_at: datetime
+
+    @model_validator(mode="after")
+    def compute_thumbnail_urls(self):
+        if self.front_image_path:
+            self.front_thumbnail_url = f"/uploads/thumb_{Path(self.front_image_path).name}"
+        if self.back_image_path:
+            self.back_thumbnail_url = f"/uploads/thumb_{Path(self.back_image_path).name}"
+        return self
 
 
 class CardListResponse(BaseModel):

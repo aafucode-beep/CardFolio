@@ -21,6 +21,8 @@ export interface Card {
   notes: string | null
   front_image_path: string | null
   back_image_path: string | null
+  front_thumbnail_url: string | null
+  back_thumbnail_url: string | null
   needs_review: boolean
   created_at: string
   updated_at: string

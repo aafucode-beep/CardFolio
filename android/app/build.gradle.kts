@@ -80,4 +80,7 @@ dependencies {
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
 }

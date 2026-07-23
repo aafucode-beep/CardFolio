@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { cardApi } from '../api/client'
 import { Search } from 'lucide-react'
@@ -41,13 +42,15 @@ export default function SearchPage() {
         <div className="space-y-3">
           <p className="text-sm text-gray-500">找到 {data.total} 条结果</p>
           {data.items.map((card) => (
-            <div key={card.id} className="bg-white rounded-xl border p-4 flex items-center justify-between">
-              <div>
-                <p className="font-medium text-gray-900">{card.person_name || '未知'}</p>
-                <p className="text-sm text-gray-500">{card.company} {card.title && `· ${card.title}`}</p>
+            <Link key={card.id} to={`/cards/${card.id}`} className="block">
+              <div className="bg-white rounded-xl border p-4 flex items-center justify-between hover:shadow-md transition cursor-pointer">
+                <div>
+                  <p className="font-medium text-gray-900">{card.person_name || '未知'}</p>
+                  <p className="text-sm text-gray-500">{card.company} {card.title && `· ${card.title}`}</p>
+                </div>
+                <span className="text-xs text-gray-400">{card.country}</span>
               </div>
-              <span className="text-xs text-gray-400">{card.country}</span>
-            </div>
+            </Link>
           ))}
         </div>
       ) : data && data.items.length === 0 ? (

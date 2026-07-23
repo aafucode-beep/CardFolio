@@ -25,6 +25,7 @@ import com.cardfolio.ui.screens.CardDetailScreen
 import com.cardfolio.ui.screens.CardListScreen
 import com.cardfolio.ui.screens.CameraScreen
 import com.cardfolio.ui.screens.SearchScreen
+import com.cardfolio.ui.screens.SettingsScreen
 import com.cardfolio.ui.screens.StatsScreen
 import com.cardfolio.ui.screens.UploadResultScreen
 
@@ -33,6 +34,7 @@ object Routes {
     const val CAMERA = "camera"
     const val SEARCH = "search"
     const val STATS = "stats"
+    const val SETTINGS = "settings"
     const val DETAIL = "detail/{cardId}"
     const val UPLOAD_RESULT = "upload_result/{cardId}"
 
@@ -96,6 +98,7 @@ fun Navigation() {
                 CardListScreen(
                     onCardClick = { cardId -> navController.navigate(Routes.detail(cardId)) },
                     onFabClick = { navController.navigate(Routes.CAMERA) },
+                    onSettingsClick = { navController.navigate(Routes.SETTINGS) },
                 )
             }
             composable(Routes.CAMERA) {
@@ -110,6 +113,9 @@ fun Navigation() {
             }
             composable(Routes.STATS) {
                 StatsScreen()
+            }
+            composable(Routes.SETTINGS) {
+                SettingsScreen(onBack = { navController.popBackStack() })
             }
             composable(Routes.DETAIL) { backStackEntry ->
                 val cardId = backStackEntry.arguments?.getString("cardId") ?: return@composable

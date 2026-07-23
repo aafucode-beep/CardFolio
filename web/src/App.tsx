@@ -1,6 +1,7 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { LayoutGrid, Upload, BarChart3, Search } from 'lucide-react'
 import CardListPage from './pages/CardListPage'
+import CardDetailPage from './pages/CardDetailPage'
 import UploadPage from './pages/UploadPage'
 import StatsPage from './pages/StatsPage'
 import SearchPage from './pages/SearchPage'
@@ -43,6 +44,7 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-6 py-8">
         <Routes>
           <Route path="/" element={<CardListPage />} />
+          <Route path="/cards/:id" element={<CardDetailPage />} />
           <Route path="/upload" element={<UploadPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/stats" element={<StatsPage />} />

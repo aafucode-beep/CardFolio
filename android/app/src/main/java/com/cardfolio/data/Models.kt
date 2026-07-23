@@ -27,6 +27,8 @@ data class Card(
     val notes: String? = null,
     val front_image_path: String? = null,
     val back_image_path: String? = null,
+    val front_thumbnail_url: String? = null,
+    val back_thumbnail_url: String? = null,
     val needs_review: Boolean = false,
     val created_at: String? = null,
     val updated_at: String? = null,

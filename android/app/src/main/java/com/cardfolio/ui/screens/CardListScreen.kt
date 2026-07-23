@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,6 +33,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -59,6 +61,7 @@ import kotlinx.coroutines.withContext
 fun CardListScreen(
     onCardClick: (String) -> Unit,
     onFabClick: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     var cards by remember { mutableStateOf<List<Card>>(emptyList()) }
     var loading by remember { mutableStateOf(true) }
@@ -88,7 +91,14 @@ fun CardListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("名片夹 (${total})") })
+            TopAppBar(
+                title = { Text("名片夹 (${total})") },
+                actions = {
+                    IconButton(onClick = onSettingsClick) {
+                        Icon(Icons.Default.Settings, contentDescription = "设置")
+                    }
+                },
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onFabClick) {

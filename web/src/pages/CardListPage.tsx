@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { cardApi, type Card } from '../api/client'
 import { Download, FileText, AlertCircle } from 'lucide-react'
@@ -106,31 +107,33 @@ export default function CardListPage() {
 
 function CardCard({ card }: { card: Card }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition">
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h3 className="font-semibold text-gray-900">{card.person_name || '未知'}</h3>
-          <p className="text-sm text-gray-500">{card.title || ''}</p>
+    <Link to={`/cards/${card.id}`} className="block">
+      <div className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition cursor-pointer">
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <h3 className="font-semibold text-gray-900">{card.person_name || '未知'}</h3>
+            <p className="text-sm text-gray-500">{card.title || ''}</p>
+          </div>
+          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${categoryColors[card.category]}`}>
+            {categoryLabels[card.category]}
+          </span>
         </div>
-        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${categoryColors[card.category]}`}>
-          {categoryLabels[card.category]}
-        </span>
+        <p className="text-sm font-medium text-gray-700 mb-2">{card.company || ''}</p>
+        {card.phone && card.phone.length > 0 && (
+          <p className="text-sm text-gray-500">📞 {card.phone.join(', ')}</p>
+        )}
+        {card.email && card.email.length > 0 && (
+          <p className="text-sm text-gray-500">✉️ {card.email.join(', ')}</p>
+        )}
+        {card.country && (
+          <p className="text-sm text-gray-500 mt-1">📍 {card.country}</p>
+        )}
+        {card.needs_review && (
+          <p className="text-xs text-amber-600 mt-2 flex items-center gap-1">
+            <AlertCircle size={12} /> 需人工核对
+          </p>
+        )}
       </div>
-      <p className="text-sm font-medium text-gray-700 mb-2">{card.company || ''}</p>
-      {card.phone && card.phone.length > 0 && (
-        <p className="text-sm text-gray-500">📞 {card.phone.join(', ')}</p>
-      )}
-      {card.email && card.email.length > 0 && (
-        <p className="text-sm text-gray-500">✉️ {card.email.join(', ')}</p>
-      )}
-      {card.country && (
-        <p className="text-sm text-gray-500 mt-1">📍 {card.country}</p>
-      )}
-      {card.needs_review && (
-        <p className="text-xs text-amber-600 mt-2 flex items-center gap-1">
-          <AlertCircle size={12} /> 需人工核对
-        </p>
-      )}
-    </div>
+    </Link>
   )
 }

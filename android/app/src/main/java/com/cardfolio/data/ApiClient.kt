@@ -66,8 +66,8 @@ interface CardFolioApi {
 }
 
 object ApiClient {
-    // Change this to your VPS domain in production
-    var baseUrl: String = "http://10.0.2.2:8000/"  // Android emulator → host localhost
+    var baseUrl: String = "http://10.0.2.2:8000/"
+        private set
 
     private val okHttpClient by lazy {
         OkHttpClient.Builder()
@@ -80,15 +80,27 @@ object ApiClient {
             .build()
     }
 
-    private val retrofit by lazy {
-        Retrofit.Builder()
+    @Volatile
+    private var _api: CardFolioApi? = null
+
+    val api: CardFolioApi
+        get() = _api ?: synchronized(this) {
+            _api ?: buildApi().also { _api = it }
+        }
+
+    private fun buildApi(): CardFolioApi {
+        return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
+            .create(CardFolioApi::class.java)
     }
 
-    val api: CardFolioApi by lazy { retrofit.create(CardFolioApi::class.java) }
+    fun updateBaseUrl(newUrl: String) {
+        baseUrl = newUrl
+        _api = null
+    }
 }
 
 // Helper to create multipart from file
