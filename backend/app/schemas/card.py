@@ -58,9 +58,9 @@ class CardResponse(CardBase):
     @model_validator(mode="after")
     def compute_thumbnail_urls(self):
         if self.front_image_path:
-            self.front_thumbnail_url = f"/uploads/thumb_{Path(self.front_image_path).name}"
+            self.front_thumbnail_url = f"/cardfolio/uploads/thumb_{Path(self.front_image_path).name}"
         if self.back_image_path:
-            self.back_thumbnail_url = f"/uploads/thumb_{Path(self.back_image_path).name}"
+            self.back_thumbnail_url = f"/cardfolio/uploads/thumb_{Path(self.back_image_path).name}"
         return self
 
 

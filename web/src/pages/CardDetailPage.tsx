@@ -23,7 +23,7 @@ const categoryColors: Record<string, string> = {
 function imageUrl(path: string | null): string | null {
   if (!path) return null
   const filename = path.split('/').pop()
-  return `/uploads/${filename}`
+  return `/cardfolio/uploads/${filename}`
 }
 
 export default function CardDetailPage() {

@@ -55,10 +55,10 @@ export default function CardListPage() {
           ))}
         </div>
         <div className="flex gap-2">
-          <a href="/api/cards/export/csv" className="flex items-center gap-1 px-3 py-1.5 bg-white border rounded-lg text-sm text-gray-600 hover:bg-gray-50">
+          <a href="/cardfolio/api/cards/export/csv" className="flex items-center gap-1 px-3 py-1.5 bg-white border rounded-lg text-sm text-gray-600 hover:bg-gray-50">
             <Download size={14} /> CSV
           </a>
-          <a href="/api/cards/export/vcard" className="flex items-center gap-1 px-3 py-1.5 bg-white border rounded-lg text-sm text-gray-600 hover:bg-gray-50">
+          <a href="/cardfolio/api/cards/export/vcard" className="flex items-center gap-1 px-3 py-1.5 bg-white border rounded-lg text-sm text-gray-600 hover:bg-gray-50">
             <FileText size={14} /> vCard
           </a>
         </div>
