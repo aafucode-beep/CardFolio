@@ -38,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -79,26 +80,27 @@ fun CameraScreen(
 
     // ── Camera Preview ──
     Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(
-            factory = { ctx ->
-                val previewView = PreviewView(ctx)
-                val providerFuture = ProcessCameraProvider.getInstance(ctx)
-                providerFuture.addListener({
-                    val provider = providerFuture.get()
-                    val preview = Preview.Builder().build().also {
-                        it.setSurfaceProvider(previewView.surfaceProvider)
-                    }
-                    val selector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
-                    try {
-                        provider.unbindAll()
-                        provider.bindToLifecycle(lifecycleOwner, selector, preview, imageCapture)
-                    } catch (_: Exception) {}
-                }, ContextCompat.getMainExecutor(ctx))
-                previewView
-            },
-            modifier = Modifier.fillMaxSize(),
-            key = lensFacing,  // Re-bind when camera flips
-        )
+        key(lensFacing) {
+            AndroidView(
+                factory = { ctx ->
+                    val previewView = PreviewView(ctx)
+                    val providerFuture = ProcessCameraProvider.getInstance(ctx)
+                    providerFuture.addListener({
+                        val provider = providerFuture.get()
+                        val preview = Preview.Builder().build().also {
+                            it.setSurfaceProvider(previewView.surfaceProvider)
+                        }
+                        val selector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+                        try {
+                            provider.unbindAll()
+                            provider.bindToLifecycle(lifecycleOwner, selector, preview, imageCapture)
+                        } catch (_: Exception) {}
+                    }, ContextCompat.getMainExecutor(ctx))
+                    previewView
+                },
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
 
         // ── Overlay UI ──
         Column(
