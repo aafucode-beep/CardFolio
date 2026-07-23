@@ -24,9 +24,9 @@ class Settings(BaseSettings):
     max_file_size_mb: int = 10
 
     # ── OCR ──
-    ocr_model: Literal["glm-4v", "gpt-4o", "claude-3.5-sonnet"] = "glm-4v"
+    ocr_model: Literal["glm-4v", "gpt-4o", "claude-3.5-sonnet", "minimax-m3"] = "minimax-m3"
     ocr_api_key: str = ""
-    ocr_api_base: str = "https://open.bigmodel.cn/api/paas/v4"
+    ocr_api_base: str = "https://api.minimax.chat/v1"
 
     # ── Security ──
     secret_key: str = "dev-secret-change-in-production"

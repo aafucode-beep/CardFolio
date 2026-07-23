@@ -146,7 +146,20 @@ async def perform_ocr(front_path: str | None, back_path: str | None) -> dict:
         }
         url = f"{settings.ocr_api_base}/chat/completions"
 
-    # ── Claude 3.5 Sonnet (Anthropic-compatible) ──
+    # ── MiniMax M3 (OpenAI-compatible) ──
+    elif settings.ocr_model == "minimax-m3":
+        headers = {
+            "Authorization": f"Bearer {settings.ocr_api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": "MiniMax-M3",
+            "messages": messages,
+            "temperature": 0.1,
+            "max_tokens": 2000,
+        }
+        url = f"{settings.ocr_api_base}/chat/completions"
+
     elif settings.ocr_model == "claude-3.5-sonnet":
         headers = {
             "x-api-key": settings.ocr_api_key,

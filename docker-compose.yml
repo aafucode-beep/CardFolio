@@ -29,9 +29,9 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql+asyncpg://cardfolio:${POSTGRES_PASSWORD:-cardfolio_dev}@postgres:5432/cardfolio
-      OCR_MODEL: ${OCR_MODEL:-glm-4v}
+      OCR_MODEL: ${OCR_MODEL:-minimax-m3}
       OCR_API_KEY: ${OCR_API_KEY}
-      OCR_API_BASE: ${OCR_API_BASE:-https://open.bigmodel.cn/api/paas/v4}
+      OCR_API_BASE: ${OCR_API_BASE:-https://api.minimax.chat/v1}
       SECRET_KEY: ${SECRET_KEY:-dev-secret-change-me}
       UPLOAD_DIR: /app/uploads
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
